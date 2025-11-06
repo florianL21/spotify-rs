@@ -4,18 +4,18 @@ use std::{
 };
 
 use oauth2::{
+    AuthUrl, AuthorizationCode, ClientId, ClientSecret, CsrfToken, PkceCodeChallenge, RedirectUrl,
+    RefreshToken, StandardRevocableToken, TokenUrl,
     basic::{
         BasicErrorResponse, BasicRevocationErrorResponse, BasicTokenIntrospectionResponse,
         BasicTokenType,
     },
     reqwest::async_http_client,
-    AuthUrl, AuthorizationCode, ClientId, ClientSecret, CsrfToken, PkceCodeChallenge, RedirectUrl,
-    RefreshToken, StandardRevocableToken, TokenUrl,
 };
-use reqwest::{header::CONTENT_LENGTH, Method, Url};
+use reqwest::{Method, Url, header::CONTENT_LENGTH};
 use serde::{
-    de::{value::BytesDeserializer, DeserializeOwned, IntoDeserializer},
     Serialize,
+    de::{DeserializeOwned, IntoDeserializer, value::BytesDeserializer},
 };
 use tracing::info;
 
@@ -220,7 +220,10 @@ impl<F: AuthFlow> Client<Token, F> {
                     .read()
                     .expect("The lock holding the token has been poisoned.");
 
-                info!("The token has been successfully refreshed. The new token will expire in {} seconds", lock.expires_in);
+                info!(
+                    "The token has been successfully refreshed. The new token will expire in {} seconds",
+                    lock.expires_in
+                );
             } else {
                 info!("The token has expired, automatic refresh is disabled.");
                 return Err(Error::ExpiredToken);
