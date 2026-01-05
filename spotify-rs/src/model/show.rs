@@ -41,7 +41,7 @@ pub struct Show {
 pub struct SimplifiedShow {
     #[serde(default)]
     pub available_markets: Vec<String>,
-    pub copyrights: Vec<String>,
+    pub copyrights: Vec<Copyright>,
     pub description: String,
     pub html_description: String,
     pub explicit: bool,
@@ -59,7 +59,7 @@ pub struct SimplifiedShow {
     pub r#type: String,
     pub uri: String,
     /// The amount of episodes the show contains.
-    pub total_episodes: u32,
+    pub total_episodes: Option<u32>,
 }
 
 /// A show saved by a user.
@@ -98,7 +98,7 @@ pub struct Episode {
     pub images: Vec<Image>,
     /// Whether or not the episode is hosted outside of Spotify's CDN.
     pub is_externally_hosted: bool,
-    pub is_playable: bool,
+    pub is_playable: Option<bool>,
     pub languages: Vec<String>,
     pub name: String,
     pub release_date: String,
